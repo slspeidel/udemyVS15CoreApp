@@ -1,6 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+﻿@model MySecondVS15CoreApp.Models.FirstClass
+@*
+    using TagHelpers below
 *@
-@ViewBag.value
+
 @{
 }
+<div>@ViewBag.myServiceObject.MyGuid</div>
+<div>
+    <span class="lead">Using TagHelper asp-for</span>
+    <input asp-for="Value" class="form-control" />
+</div>
+@Html.Partial("~/Views/Main/PartialViews/IndexPartial.cshtml")

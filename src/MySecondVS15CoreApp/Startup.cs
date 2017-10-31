@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MySecondVS15CoreApp.Models;
+using MySecondVS15CoreApp.Interfaces;
 
 namespace MySecondVS15CoreApp
 {
@@ -37,6 +40,9 @@ namespace MySecondVS15CoreApp
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+
+            services.AddScoped<IFirstClass, FirstClass>();
+            services.AddTransient<IMyInjectedService, MyInjectedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,12 +67,20 @@ namespace MySecondVS15CoreApp
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Main}/{action=Index}/{id?}");
-            });
+            app.UseMvc(Configurationroute);
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Main}/{action=Index}/{id?}");
+            //});
+
+        }
+
+        private void Configurationroute(IRouteBuilder obj)
+        {
+            obj.MapRoute("Default", "{controller=Main}/{action=Index}/{id?}");
         }
     }
 }
